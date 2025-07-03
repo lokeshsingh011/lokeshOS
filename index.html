@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LokeshOS</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+<body>
+
+  <!-- Boot Screen -->
+  <div id="boot-screen">
+    <h1>LokeshOS</h1>
+    <p>Booting Up...</p>
+    <div class="loader"></div>
+  </div>
+
+  <!-- Desktop UI -->
+  <div id="desktop" class="hidden">
+
+    <!-- Top Bar -->
+    <div id="top-bar">
+      <div class="left">
+        <span class="logo">🍎 LokeshOS</span>
+      </div>
+      <div class="right">
+        <span class="time" id="time">00:00</span>
+        <button id="theme-toggle" title="Toggle Theme">🌙</button>
+      </div>
+    </div>
+
+    <!-- Desktop Background -->
+    <div id="desktop-bg"></div>
+
+    <!-- About Window -->
+    <div class="window" id="about-window">
+      <div class="window-header">
+        <div class="window-buttons">
+          <span class="close" onclick="closeWindow('about-window')"></span>
+          <span class="minimize" onclick="minimizeWindow('about-window')"></span>
+          <span class="maximize" onclick="toggleMaximize('about-window')"></span>
+        </div>
+        <span class="title">About Me</span>
+      </div>
+      <div class="window-content">
+        <p>Hello! I'm Lokesh Kumar 👋</p>
+        <p>Creative technologist with a passion for building innovative solutions and unique web experiences.</p>
+      </div>
+      <div class="resizer top-left"></div>
+      <div class="resizer top"></div>
+      <div class="resizer top-right"></div>
+      <div class="resizer right"></div>
+      <div class="resizer bottom-right"></div>
+      <div class="resizer bottom"></div>
+      <div class="resizer bottom-left"></div>
+      <div class="resizer left"></div>
+    </div>
+
+    <!-- Resume Window -->
+    <div class="window" id="resume-window">
+      <div class="window-header">
+        <div class="window-buttons">
+          <span class="close" onclick="closeWindow('resume-window')"></span>
+          <span class="minimize" onclick="minimizeWindow('resume-window')"></span>
+          <span class="maximize" onclick="toggleMaximize('resume-window')"></span>
+        </div>
+        <span class="title">Resume</span>
+      </div>
+      <!--<div class="window-content">
+        <iframe src="assets/resume.pdf" width="100%" height="100%" style="border:none;"></iframe>
+      </div> -->
+      <div class="resizer top-left"></div>
+      <div class="resizer top"></div>
+      <div class="resizer top-right"></div>
+      <div class="resizer right"></div>
+      <div class="resizer bottom-right"></div>
+      <div class="resizer bottom"></div>
+      <div class="resizer bottom-left"></div>
+      <div class="resizer left"></div>
+    </div> 
+
+    <!-- Projects Window -->
+    <div class="window" id="projects-window">
+      <div class="window-header">
+        <div class="window-buttons">
+          <span class="close" onclick="closeWindow('projects-window')"></span>
+          <span class="minimize" onclick="minimizeWindow('projects-window')"></span>
+          <span class="maximize" onclick="toggleMaximize('projects-window')"></span>
+        </div>
+        <span class="title">Projects</span>
+      </div>
+      <div class="window-content">
+        <ul style="list-style: none; padding-left: 0;">
+          <li><strong>🛍 E-Commerce Analytics Pipeline</strong><br/><em>dbt, Snowflake, SQL</em><br/>Analyzed 500K+ records, built a custom dbt pipeline for revenue, CLTV & retention. Improved query speed by 20%.</li><br/>
+          <li><strong>🌊 End-to-End Data Lake with Python</strong><br/><em>ETL, Pandas, Matplotlib</em><br/>Created an ETL pipeline for the Titanic dataset, visualized survival trends, and shared code on GitHub.</li><br/>
+          <li><strong>🧠 Image Classifier API</strong><br/><em>TensorFlow, FastAPI</em><br/>CNN-based potato disease detector (92% accuracy), deployed as a FastAPI service with <200ms latency.</li><br/>
+          <li><strong>💬 Question Answering Chatbot</strong><br/><em>spaCy, NLTK, Flask/Kivy</em><br/>Built an NLP Q&A system, improved accuracy via feedback loops. Works on both web and mobile.</li><br/>
+          <li><strong>🧑‍💻 Real-Time Face Recognition</strong><br/><em>OpenCV, TensorFlow, Kivy</em><br/>GUI-based face recognition system with robust lighting handling. Fully open-sourced and documented.</li>
+        </ul>
+      </div>
+      <div class="resizer top-left"></div>
+      <div class="resizer top"></div>
+      <div class="resizer top-right"></div>
+      <div class="resizer right"></div>
+      <div class="resizer bottom-right"></div>
+      <div class="resizer bottom"></div>
+      <div class="resizer bottom-left"></div>
+      <div class="resizer left"></div>
+    </div>
+
+    <!-- Contact Window -->
+    <div class="window" id="contact-window">
+      <div class="window-header">
+        <div class="window-buttons">
+          <span class="close" onclick="closeWindow('contact-window')"></span>
+          <span class="minimize" onclick="minimizeWindow('contact-window')"></span>
+          <span class="maximize" onclick="toggleMaximize('contact-window')"></span>
+        </div>
+        <span class="title">Contact</span>
+      </div>
+      <div class="window-content">
+        <p>Email: lkmahaur111@gmail.com</p>
+        <p>LinkedIn: <a href="https://linkedin.com/in/lokesh-kumar-ab41a819a" target="_blank">View Profile</a></p>
+        <p>GitHub: <a href="https://github.com/lokeshsingh011" target="_blank">lokeshsingh011</a></p>
+      </div>
+    </div>
+
+    <!-- Terminal Window (Easter Egg) -->
+    <div class="window" id="terminal-window">
+      <div class="window-header">
+        <div class="window-buttons">
+          <span class="close" onclick="closeWindow('terminal-window')"></span>
+          <span class="minimize" onclick="minimizeWindow('terminal-window')"></span>
+          <span class="maximize" onclick="toggleMaximize('terminal-window')"></span>
+        </div>
+        <span class="title">Terminal</span>
+      </div>
+      <div class="window-content terminal-content">
+        <div id="terminal-output" class="terminal-output"></div>
+        <input type="text" id="terminal-input" class="terminal-input" placeholder="Type a command..." autocomplete="off" />
+      </div>
+    </div>
+
+    <!-- File Explorer Window -->
+    <div class="window" id="explorer-window">
+      <div class="window-header">
+        <div class="window-buttons">
+          <span class="close" onclick="closeWindow('explorer-window')"></span>
+          <span class="minimize" onclick="minimizeWindow('explorer-window')"></span>
+          <span class="maximize" onclick="toggleMaximize('explorer-window')"></span>
+        </div>
+        <span class="title">File Explorer</span>
+      </div>
+
+      <div class="window-content explorer-content">
+        <div class="explorer-sidebar">
+          <ul id="folder-list">
+            <li class="file-item folder" data-type="folder" ondblclick="openFakeFile('Documents')">Documents</li>
+            <li class="file-item folder" data-type="folder" ondblclick="openFakeFile('Projects')">Projects</li>
+            <li class="file-item file" data-type="file" ondblclick="openFakeFile('Resume.pdf')">Resume.pdf</li>
+            <li class="file-item file" data-type="file" ondblclick="openFakeFile('todo.txt')">todo.txt</li>
+            <li class="file-item file" data-type="file" ondblclick="openFakeFile('easter-egg.sh')">easter-egg.sh</li>
+          </ul>
+        </div>
+        <div class="explorer-main" id="file-viewer">
+          <p>Select a folder or file to view its content here..</p>
+        </div>
+      </div>
+
+      <div class="resizer top-left"></div>
+      <div class="resizer top"></div>
+      <div class="resizer top-right"></div>
+      <div class="resizer right"></div>
+      <div class="resizer bottom-right"></div>
+      <div class="resizer bottom"></div>
+      <div class="resizer bottom-left"></div>
+      <div class="resizer left"></div>
+    </div>
+
+    <!-- 📄 PDF Viewer Window -->
+    <div class="window" id="pdf-viewer-window">
+      <div class="window-header">
+        <div class="window-buttons">
+          <span class="close" onclick="closeWindow('pdf-viewer-window')"></span>
+          <span class="minimize" onclick="minimizeWindow('pdf-viewer-window')"></span>
+          <span class="maximize" onclick="toggleMaximize('pdf-viewer-window')"></span>
+        </div>
+        <span class="title">PDF Viewer</span>
+      </div>
+
+      <div class="window-content pdf-viewer-content">
+        <canvas id="pdf-canvas"></canvas>
+
+        <div class="pdf-controls">
+          <button onclick="prevPage()">⬅ Prev</button>
+          <span>Page <span id="page-num">1</span> of <span id="page-count">?</span></span>
+          <button onclick="nextPage()">Next ➡</button>
+        </div>
+      </div>
+
+      <div class="resizer top-left"></div>
+      <div class="resizer top"></div>
+      <div class="resizer top-right"></div>
+      <div class="resizer right"></div>
+      <div class="resizer bottom-right"></div>
+      <div class="resizer bottom"></div>
+      <div class="resizer bottom-left"></div>
+      <div class="resizer left"></div>
+    </div>
+
+
+
+    <!-- Dock -->
+    <div id="dock">
+      <div class="dock-icon" onclick="showWindow('about-window')" data-window="about-window">📄<span>About</span><div class="dot"></div></div>
+      <div class="dock-icon" onclick="loadPDF('assets/resume.pdf')" data-window="pdf-viewer-window">📁<span>Resume</span><div class="dot"></div></div>
+      <div class="dock-icon" onclick="showWindow('projects-window')" data-window="projects-window">🛠<span>Projects</span><div class="dot"></div></div>
+      <div class="dock-icon" onclick="showWindow('contact-window')" data-window="contact-window">📧<span>Contact</span><div class="dot"></div></div>
+      <div class="dock-icon" onclick="showWindow('terminal-window')" data-window="terminal-window">💻<span>Terminal</span><div class="dot"></div></div>
+      <div class="dock-icon" onclick="showWindow('explorer-window')" data-window="explorer-window">🗂️<span>Files</span><div class="dot"></div></div>
+    </div>
+
+    <!-- Dock -->
+    <div id="dock-container">
+      <div id="dock">
+        <div class="dock-icon" onclick="showWindow('about-window')" data-window="about-window">
+          📄<span class="label">About</span><div class="dot"></div>
+        </div>
+        <div class="dock-icon" onclick="showWindow('resume-window')" data-window="resume-window">
+          📁<span class="label">Resume</span><div class="dot"></div>
+        </div>
+        <div class="dock-icon" onclick="showWindow('projects-window')" data-window="projects-window">
+          🛠<span class="label">Projects</span><div class="dot"></div>
+        </div>
+        <div class="dock-icon" onclick="showWindow('contact-window')" data-window="contact-window">
+          📧<span class="label">Contact</span><div class="dot"></div>
+        </div>
+        <div class="dock-icon" onclick="showWindow('terminal-window')" data-window="terminal-window">
+          💻<span class="label">Terminal</span><div class="dot"></div>
+        </div>
+        <div class="dock-icon" onclick="showWindow('explorer-window')" data-window="explorer-window">
+          🗂<span class="label">Files</span><div class="dot"></div>
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+
+  <!-- Download Resume Widget -->
+  <a href="assets/resume.pdf" download id="download-widget" title="Download Resume">⬇️ Resume</a>
+  <!-- 📋 Right-click Context Menu -->
+  <div id="context-menu">
+    <ul>
+      <li onclick="alert('Open: ' + this.parentElement.parentElement.dataset.target)">Open</li>
+      <li onclick="alert('Rename not implemented')">Rename</li>
+      <li onclick="alert('Properties not implemented')">Properties</li>
+    </ul>
+  </div>
+
+</body>
+</html>

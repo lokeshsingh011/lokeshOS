@@ -1,0 +1,718 @@
+/* 🌐 Reset & Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body, html {
+  height: 100%;
+  background: #f5f5f5;
+  overflow: hidden;
+}
+
+/* 🖥️ Boot Screen */
+#boot-screen {
+  height: 100vh;
+  width: 100%;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  animation: fadeOut 1s ease-in-out forwards;
+  animation-delay: 3s;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2000;
+}
+
+#boot-screen h1 {
+  font-size: 3rem;
+  color: #777;
+  margin-bottom: 1rem;
+}
+
+#boot-screen p {
+  font-size: 1rem;
+  color: #999;
+  margin-bottom: 1rem;
+}
+
+.loader {
+  border: 5px solid #e0e0e0;
+  border-top: 5px solid #297cff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+/* 🔝 Top Bar */
+#top-bar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 30px;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  z-index: 1000;
+  border-bottom: 1px solid #ddd;
+  padding: 0 15px;
+}
+
+#top-bar .logo {
+  font-weight: bold;
+  color: #444;
+}
+
+#top-bar .right {
+  color: #555;
+}
+
+/* 🖼️ Desktop Background */
+#desktop-bg {
+  background: url('assets/wallpaper.jpg') center/cover no-repeat;
+  height: 100vh;
+  width: 100%;
+  padding-top: 30px;
+  position: relative;
+  z-index: 0;
+}
+
+/* 🚀 Dock */
+#dock {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  padding: 8px 12px;
+  display: flex;
+  gap: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+}
+
+.dock-icon {
+  text-align: center;
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  position: relative;
+}
+
+.dock-icon span {
+  display: block;
+  font-size: 10px;
+  color: #333;
+}
+
+.dock-icon:hover {
+  transform: scale(1.2);
+}
+
+/* 🪟 Windows */
+.window {
+  position: absolute;
+  top: 100px;
+  left: 100px;
+  width: 350px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  overflow: hidden;
+  display: none;
+  transition: all 0.3s ease;
+}
+
+.window-header {
+  background: #f1f1f1;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  cursor: grab;
+  user-select: none;
+}
+
+.window-buttons {
+  display: flex;
+  gap: 5px;
+  margin-right: 10px;
+}
+
+.window-buttons span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.window-buttons .close { background: #ff5f56; }
+.window-buttons .minimize { background: #ffbd2e; }
+.window-buttons .maximize { background: #27c93f; }
+
+.window .title {
+  font-weight: bold;
+  color: #444;
+}
+
+.window-content {
+  padding: 15px;
+  color: #333;
+  font-size: 14px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* 📄 Special Project/Resume Window Sizes */
+#projects-window {
+  width: 500px;
+}
+
+#resume-window {
+  width: 600px;
+  height: 400px;
+}
+
+/* 📂 Active + Maximized */
+.window.active {
+  box-shadow: 0 0 0 3px #297cff33, 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.window.maximized {
+  border-radius: 0;
+  transition: all 0.3s ease;
+}
+
+/* 🎯 Dock Minimized Dot */
+.dock-icon .dot {
+  width: 6px;
+  height: 6px;
+  background-color: #297cff;
+  border-radius: 50%;
+  margin: 2px auto 0;
+  display: none;
+  position: relative;
+  cursor: help;
+}
+
+.dock-icon.minimized .dot {
+  display: block;
+}
+
+/* Tooltip for Minimized Dot */
+.dock-icon .dot::after {
+  content: "Window minimized";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  color: white;
+  background: #333;
+  padding: 3px 6px;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 9999;
+}
+
+.dock-icon .dot:hover::after {
+  opacity: 1;
+}
+
+/* 🎁 Resume Download Widget */
+#download-widget {
+  position: fixed;
+  top: 60px;
+  right: 20px;
+  background-color: #297cff;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+  text-decoration: none;
+  animation: slideIn 0.6s ease-out 3.5s both;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+#download-widget:hover {
+  background-color: #1f5fd7;
+  transform: scale(1.05);
+}
+
+/* 🎞️ Animations */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 👻 Utility */
+.hidden {
+  display: none;
+}
+
+/* Theme Toggle Button */
+#theme-toggle {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+/* Dark Theme Styles */
+body.dark {
+  background-color: #181818;
+  color: #f0f0f0;
+}
+
+body.dark .window {
+  background: #242424;
+  color: #eaeaea;
+  border: 1px solid #333;
+}
+
+body.dark .window-header {
+  background: #2f2f2f;
+  color: #f0f0f0;
+  border-bottom: 1px solid #444;
+}
+
+body.dark #top-bar {
+  background-color: rgba(30, 30, 30, 0.9);
+  color: #ccc;
+  border-bottom: 1px solid #333;
+}
+
+body.dark .logo {
+  color: #eee;
+}
+
+body.dark #dock {
+  background-color: rgba(40, 40, 40, 0.95);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+body.dark .dock-icon span {
+  color: #ddd;
+}
+
+body.dark .window-content {
+  background-color: #262626;
+  color: #eaeaea;
+}
+
+body.dark .window-buttons .close {
+  background: #ff5f56;
+}
+
+body.dark .window-buttons .minimize {
+  background: #ffbd2e;
+}
+
+body.dark .window-buttons .maximize {
+  background: #27c93f;
+}
+
+body.dark iframe {
+  background: white;
+  filter: brightness(1.05);
+}
+
+/* Resize Handle (bottom-right corner) */
+.window::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 14px;
+  height: 14px;
+  background: transparent;
+  cursor: se-resize;
+  z-index: 10;
+}
+
+/* Optional: visual handle (can be removed if you want clean UI) */
+.window.resizing::after {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+}
+
+.resizer {
+  position: absolute;
+  z-index: 10;
+}
+
+.resizer.top-left,
+.resizer.top-right,
+.resizer.bottom-left,
+.resizer.bottom-right {
+  width: 10px;
+  height: 10px;
+}
+
+.resizer.top,
+.resizer.bottom {
+  height: 5px;
+  width: 100%;
+  cursor: ns-resize;
+  left: 0;
+}
+
+.resizer.left,
+.resizer.right {
+  width: 5px;
+  height: 100%;
+  cursor: ew-resize;
+  top: 0;
+}
+
+.resizer.top-left {
+  top: 0;
+  left: 0;
+  cursor: nwse-resize;
+}
+
+.resizer.top-right {
+  top: 0;
+  right: 0;
+  cursor: nesw-resize;
+}
+
+.resizer.bottom-left {
+  bottom: 0;
+  left: 0;
+  cursor: nesw-resize;
+}
+
+.resizer.bottom-right {
+  bottom: 0;
+  right: 0;
+  cursor: nwse-resize;
+}
+
+.resizer.top {
+  top: 0;
+}
+
+.resizer.right {
+  right: 0;
+}
+
+.resizer.bottom {
+  bottom: 0;
+}
+
+.resizer.left {
+  left: 0;
+}
+
+/*#hover-preview {
+  position: fixed;
+  bottom: 70px;
+  left: 0;
+  display: none;
+  padding: 4px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 2000;
+  transition: opacity 0.2s ease;
+}
+
+#hover-preview img {
+  width: 200px;
+  height: 120px;
+  object-fit: cover;
+  display: block;
+}*/
+
+
+/* Terminal Specific Styles */
+.terminal-content {
+  background-color: #000;
+  color: #00ff00;
+  font-family: 'Courier New', Courier, monospace;
+  height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.terminal-output {
+  flex: 1;
+  white-space: pre-wrap;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+.terminal-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #00ff00;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.file-explorer,
+.explorer-content {
+  display: flex;
+  height: 100%;
+  font-family: monospace;
+  background-color: var(--window-bg, #f0f0f0);
+  color: var(--text-color, #000);
+  overflow: hidden;
+}
+
+.explorer-sidebar {
+  width: 200px;
+  background: var(--sidebar-bg, #e2e2e2);
+  border-right: 1px solid #ccc;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.explorer-main {
+  flex-grow: 1;
+  padding: 10px;
+  overflow-y: auto;
+  background: var(--content-bg, #fff);
+}
+
+.file-list,
+#folder-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.file-item {
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.file-item:hover {
+  background-color: var(--highlight, #dcdcdc);
+}
+
+.file-item.folder::before {
+  content: "📁";
+  margin-right: 8px;
+}
+.file-item.file::before {
+  content: "📄";
+  margin-right: 8px;
+}
+
+.file-explorer .folder-contents {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+.file-explorer .folder-contents.open {
+  display: block;
+  opacity: 1;
+}
+
+/* 🔍 Search Bar */
+#file-search {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #ccc;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+/* 📋 Context Menu */
+#context-menu {
+  position: absolute;
+  display: none;
+  background: #333;
+  color: white;
+  border-radius: 5px;
+  z-index: 9999;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+#context-menu ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#context-menu li {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+#context-menu li:hover {
+  background: #444;
+}
+
+
+/* 📄 PDF Viewer */
+.pdf-viewer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-start;
+  padding: 20px;
+  overflow: auto;
+}
+
+
+#pdf-canvas {
+  width: auto;
+  max-width: 90%;
+  height: auto;
+  background: white;
+  border: 1px solid #ccc;
+  margin: 0 auto 20px;
+  display: block;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.pdf-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.pdf-controls button {
+  padding: 4px 10px;
+  font-size: 14px;
+  border-radius: 4px;
+  background: #eee;
+  border: 1px solid #aaa;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.pdf-controls button:hover {
+  background: #ddd;
+}
+
+#page-num, #page-count {
+  font-weight: bold;
+}
+
+/* MacOS-style Dock Container */
+#dock-container {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: end; /* Aligns dock to the bottom of the container */
+  pointer-events: none;
+  z-index: 1000;
+  height: auto; /* remove fixed height if set */
+  padding: 0;
+  margin: 0;
+}
+
+#dock {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 18px;
+  padding: 10px 18px;
+  display: flex;
+  gap: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  pointer-events: auto;
+}
+
+.dock-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  position: relative;
+  width: 60px;
+}
+
+.dock-icon:hover img {
+  transform: scale(1.5);
+}
+
+.dock-icon .label {
+  font-size: 12px;
+  color: white;
+  margin-top: 4px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.dock-icon:hover .label {
+  opacity: 1;
+}
+
+/* Dot under active icons */
+.dock-icon .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: white;
+  margin-top: 5px;
+  opacity: 0.7;
+}
+
+#dock-container {
+  opacity: 0.4;
+  transition: opacity 0.4s;
+}
+
+#dock-container:hover {
+  opacity: 1;
+}
+
+.dock-icon span {
+  font-size: 12px;
+  margin-top: 6px;
+  color: rgba(255, 255, 255, 0.85); /* More visible but still soft */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6); /* subtle glow for readability */
+  pointer-events: none;
+}
